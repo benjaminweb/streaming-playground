@@ -69,7 +69,8 @@ executable streaming-playground
     -- Other library packages from which modules are imported.
     build-depends:    base ^>=4.21.0.0,
                       streaming,
-                      text
+                      text,
+                      async
 
     -- Directories containing source files.
     hs-source-dirs:   app
