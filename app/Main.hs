@@ -35,5 +35,28 @@ ex2 = S.mapM_ Prelude.print $ mapped S.toList $ chunksOf 2 $ S.each [1..10]
 ex3 :: IO ()
 ex3 = S.mapM_ (mapConcurrently (Prelude.print)) $ mapped S.toList $ chunksOf 2 $ S.each [1..10]
 
+
+-- basic IO returning list of Int
+--
+-- >>> sum <$> simpleIO
+-- 55
+simpleIO :: IO [Int]
+simpleIO = return [1..10]
+
+-- produce stream from List using `S.yield`
+-- 
+-- >>> S.sum simpleIO'
+-- [55 :> ()]
+simpleIO' :: Stream (Of Int) [] ()
+simpleIO' = mapM_ S.yield [1..10]
+
+-- | produce stream but factoring out `S.yield`.
+--   requires providing type signature on call, refer to doctest below
+-- 
+-- >>> S.sum (simpleIO2' S.yield :: Num a => Stream (Of a) [] ())
+-- [55 :> ()]
+simpleIO2' :: (Monad m, Num a) => (a -> m b) -> m ()
+simpleIO2' f = mapM_ f [1,2,3,4,5,6,7,8,9,10]
+
 main :: IO ()
 main = putStrLn "Hello, Haskell!"
