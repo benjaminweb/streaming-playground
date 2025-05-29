@@ -58,5 +58,17 @@ simpleIO' = mapM_ S.yield [1..10]
 simpleIO2' :: (Monad m, Num a) => (a -> m b) -> m ()
 simpleIO2' f = mapM_ f [1,2,3,4,5,6,7,8,9,10]
 
+-- possibly easiest first step: https://github.com/valderman/selda/blob/ab9619db13b93867d1a244441bb4de03d3e1dadb/selda/src/Database/Selda/Compile.hs#L153
+-- => create streaming variant of `nextResult`
+--    calls `gNextResult` https://github.com/valderman/selda/blob/ab9619db13b93867d1a244441bb4de03d3e1dadb/selda/src/Database/Selda/SqlRow.hs#L58
+--    which calls `next`
+--    which is defined https://github.com/valderman/selda/blob/ab9619db13b93867d1a244441bb4de03d3e1dadb/selda/src/Database/Selda/SqlRow.hs#L29
+--
+--    do we need to use `Monad m => ResultReader (m ())`?
+--
+-- unclear:
+--   o how does (:*:) work? and how does it can / need to be used with Streaming return types (if it's resembling a list type)?
+--   o to be ctd.
+
 main :: IO ()
 main = putStrLn "Hello, Haskell!"
