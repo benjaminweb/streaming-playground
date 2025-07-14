@@ -70,6 +70,7 @@ executable streaming-playground
     build-depends:    base ^>=4.21.0.0,
                       streaming,
                       text,
+                      time,
                       async
 
     -- Directories containing source files.
